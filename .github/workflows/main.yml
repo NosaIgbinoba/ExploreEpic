@@ -23,6 +23,9 @@ jobs:
     - name: Change directory to project folder
       run: cd ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
 
+    - name: Log directory contents
+      run: ls -l
+
     - name: npm install, build, and test
       run: |
         npm install
