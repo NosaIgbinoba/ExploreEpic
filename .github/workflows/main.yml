@@ -20,12 +20,15 @@ jobs:
         node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
 
+    - name: Change directory to project folder
+      run: cd ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+
     - name: npm install, build, and test
       run: |
-        cd $AZURE_WEBAPP_PACKAGE_PATH  # Change directory to the project path
         npm install
         npm run build --if-present
         npm run test --if-present
+
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v3
       with:
