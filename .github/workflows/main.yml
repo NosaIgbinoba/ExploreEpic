@@ -5,7 +5,7 @@ on:
 
 env:
   AZURE_WEBAPP_NAME: ExploreEpic   
-  AZURE_WEBAPP_PACKAGE_PATH: 'ExploreEpic/ExploreEpicProject/Travel/'    
+  AZURE_WEBAPP_PACKAGE_PATH: 'ExploreEpic/ExploreEpicProject/Travel/src'    
   NODE_VERSION: '20.x'              
 
 jobs:
