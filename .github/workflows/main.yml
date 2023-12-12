@@ -1,11 +1,21 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+# GitHub recommends pinning actions to a commit SHA.
+# To get a newer version, you will need to update the SHA.
+# You can also reference a tag or branch, but the action may change without warning.
+
 on:
   push:
     branches:
       - master
 
 env:
-  AZURE_WEBAPP_NAME: ExploreEpic   
-  NODE_VERSION: '20.x'              
+  AZURE_WEBAPP_NAME: ExploreEpic   # set this to your application's name
+  AZURE_WEBAPP_PACKAGE_PATH: 'C:\Users\C20334466\Documents\ExploreEpicProject\ExploreEpicProject\Travel\src'      # set this to the path to your web app project, defaults to the repository root
+  NODE_VERSION: '20.x'                # set this to the node version to use
 
 jobs:
   build:
@@ -19,23 +29,16 @@ jobs:
         node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
 
-    - name: Change directory to project folder
-      run: C:/Users/C20334466/Documents/ExploreEpicProject/ExploreEpicProject/Travel/src
-
-    - name: Log directory contents
-      run: ls -l   # This will list the directory contents for verification
-
     - name: npm install, build, and test
       run: |
         npm install
         npm run build --if-present
         npm run test --if-present
-
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v3
       with:
         name: node-app
-        path: .   # Change this to your artifact path if needed
+        path: .
 
   deploy:
     runs-on: ubuntu-latest
@@ -56,4 +59,4 @@ jobs:
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        package: .   # Change this to your artifact path if needed
+        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
