@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta tags for character set and viewport -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Latest compiled and minified CSS for Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript for Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap theme and custom fonts -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+
+    <!-- Font Awesome icons -->
+    <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/solid.js" integrity="sha384-/BxOvRagtVDn9dJ+JGCtcofNXgQO/CCCVKdMfL115s3gOgQxWaX/tSq5V8dRgsbc" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/fontawesome.js" integrity="sha384-dPBGbj4Uoy1OOpM4+aRGfAOc0W37JkROT+3uynUgTHZCHZNMHfGXsmmvYTffZjYO" crossorigin="anonymous"></script>
+
+    <!-- Custom CSS files -->
+    <link rel="stylesheet" href="/profile.css">
+    <link rel="stylesheet" href="/blog.css">
+
+    <!-- External icon and font libraries -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.6.0/fonts/remixicon.css" rel="stylesheet">
+
+    <!-- Preconnect links for fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Title for the HTML document -->
+    <title>ExploreEpic</title>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+		<a href="/" class="logo">ExploreEpic</a>
+
+		<ul class="navlist">
+			<li><a href="/">Home</a></li>
+			<li><a href="/about">About</a></li>
+			<li><a href="/blog">Blogs</a></li>
+            {{#if loggedIn}}
+                <li><a href="/profile">Profile</a></li>
+            {{else}}
+                <li><a href="/login">Login</a></li>
+            {{/if}}
+		</ul>
+		<div class="bx bx-menu" id="menu-icon"></div>
+	</header>
+
+    <div class="countries" id="countries">
+    </div>
+    <!-- BLOG CODE -->
+    <main>
+        <h1 class="h1text">Travel Blogs</h1>
+          <!-- BLOG REVIEW -->
+        {{#if loggedIn}}
+        <div class="form-container">
+            <form class="formclass" id="formt">
+                <label for="country">Select a Country:</label>
+                <div class="select">
+                    <select class="form-select" data-live-search="true" id="country" name="country">
+                        {{#each countries}}
+                            <option value="{{this.name}}">{{this.name}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+                <label for="city">Select a City:</label>
+                <div class="select">
+                    <select id="city" name="city"></select>
+                </div>
+                <div class="form-group">
+                    <label for="review">Write your review:</label>
+                    <textarea class="form-control" id="review" name="review" rows="3"></textarea>
+                </div>
+                <button type="submit" class="button">Submit</button>
+            </form>
+        </div>
+          <!-- BLOG CARDS -->
+        {{/if}}
+        <section class="blog-block">
+            <form action="" class="search-bar" id="searchForm">
+                <a>Search</a>
+                <input  class="search-input" type="search" name="search" pattern=".*\S.*" placeholder="what country you want to read about?" required>
+            </form>
+            <div class="overall-container" id="blogContainer">
+                {{#each blogs}}
+                <div class="blog_post">
+                    <div class="container_copy">
+                        <h3>{{username}}</h3>
+                        <h1>{{country}}, {{city}}</h1>
+                        <p>{{review}}</p>
+            
+                        {{#if (eq username ../this.name) }}
+                        <form action="/delete-post" method="post">
+                            <input type="hidden" name="id" value="{{this.id}}">
+                            <button type="submit" class="button">Delete</button>
+                        </form>
+                        {{/if}}
+                    </div>
+                </div>
+        {{/each}}
+            </div>
+        </section>
+    </main>
+	<!---scrollreveal effect and javascript--->
+	<script src="https://unpkg.com/scrollreveal"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/blog.js" defer></script>
+</body>
+</html>

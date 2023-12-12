@@ -1,0 +1,205 @@
+/* Reset styles and basic styling */
+/* Add your global styles here */
+
+/* Styles specific to the About page */
+
+p{
+   text-transform: uppercase;
+   font-weight: 500;
+   text-align: center;
+}
+.about-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.vision-section {
+	font-family: 'Poppins', sans-serif; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10vh; /* Adjust the height as needed */
+	color: white;
+}
+
+.vision-section p{
+	color: rgba(255, 255, 255, 0.411);
+	font-weight: lighter;
+}
+
+.vision-content {
+    text-align: center;
+}
+
+
+.call-to-action {
+    margin-bottom: 30px;
+	text-align: center;
+}
+
+.call-to-action {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 15vh; /* Adjust the height as needed */
+}
+
+.intro-section h1 {
+	font-family: 'Poppins';
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.call-to-action {
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+/* Style your buttons, links, and other interactive elements */
+.signup-btn {
+    display: inline-block;
+	margin-top: 40px;
+    padding: 10px 20px;
+    background-color: rgb(1, 133, 12);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.signup-btn:hover {
+    background-color: rgb(3, 95, 8);
+	text-decoration: none;
+	transition: all .3s cubic-bezier(0.67, 0.06, 0.83, 0.89); 
+	border-top-right-radius: 30px;
+	border-top-left-radius: 30px;
+	border-bottom-right-radius: 30px;
+	border-bottom-left-radius: 30px;
+	
+	
+}
+
+
+.call-to-action, a:hover{
+	color: #999696;
+}
+
+.image-content img {
+    position: fixed;
+    top: 50%; /* Adjust the vertical positioning as needed */
+    right: 200px;
+    transform: translate(0, -46%);
+    max-width: 1000%;
+    height: auto;
+    z-index: -1; /* Ensure it's above other content */
+	opacity: 5%;
+
+}
+
+.image-content1 img {
+    position: fixed;
+    top: 20%; /* Adjust the vertical positioning as needed */
+    right: 1400px;
+    transform: translate(0, -46%);
+    max-width: 1000%;
+    height: auto;
+    z-index: 9999; /* Ensure it's above other content */
+	opacity: 5%;
+	transform: translate(0, -50%) rotate(40deg);
+}
+
+
+
+
+
+
+
+
+
+@media (max-width: 1535px){
+}
+@media (max-width: 1460px){
+	section{
+		padding: 0 12%;
+		transition: .2s;
+	}
+}
+@media (max-width: 1340px){
+	.hero-img img{
+		width: 100%;
+		height: auto;
+	}
+	.hero-text h1{
+		font-size: 75px;
+		margin: 0 0 30px;
+	}
+	.hero-text h5{
+		margin-bottom: 25px;
+	}
+}
+@media (max-width: 1195px){
+	section{
+		padding: 0 3%;
+		transition: .2s;
+	}
+	.hero-text{
+		padding-top: 115px;
+	}
+	.hero-img{
+		text-align: center;
+	}
+	.hero-img img{
+		width: 560px;
+		height: auto;
+	}
+	.hero{
+		height: 100%;
+		gap: 1rem;
+		grid-template-columns: 1fr;
+	}
+	.icons{
+		display: none;
+	}
+	.scroll-down{
+		display: none;
+	}
+}
+
+@media (max-width: 990px){
+  #menu-icon {
+    display: block;
+  }
+
+  .navlist {
+    position: absolute;
+    top: 12%;
+    right: -100%;
+    width: 300px;
+    height: fit-content; 
+    background: #1c1c1c;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 50px 20px;
+    transition: all 0.55s ease;
+	z-index: 1000;
+  }
+
+  .navlist a {
+    margin-left: 0;
+    display: block;
+    margin: 7px 0;
+  }
+
+  .navlist.open {
+    right: 0;
+  }
+}
+
+@media (max-width: 680px){
+	.hero-img img{
+		width: 100%;
+		height: auto;
+	}
+}
