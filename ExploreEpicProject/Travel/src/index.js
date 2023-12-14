@@ -3,7 +3,7 @@ const app = express();
 const path = require("path");
 const hbs = require("hbs");
 const async = require("hbs/lib/async");
-const collection = require("./mongodb");
+const connectToDatabase = require("./mongodb");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
@@ -356,6 +356,18 @@ app.post('/delete-post', async (req, res) => {
   }
 });
 
-// Start the Express server on port 3000.
-const PORT = 3000;
-app.listen(PORT, () => console.log(`Listening on localhost:${PORT}`));
+connectToDatabase()
+  .then((collection) => {
+    // Use the collection/model here if needed in your routes or other parts of the app
+    // For instance, you can pass 'collection' as an argument to your routes
+    app.set("collection", collection);
+
+    // Start the server
+    const port = process.env.PORT || 3000;
+    app.listen(port, () => {
+      console.log(`Server is running on port ${port}`);
+    });
+  })
+  .catch((error) => {
+    console.error("Failed to start the server:", error);
+  });
