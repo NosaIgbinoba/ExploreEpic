@@ -18,8 +18,8 @@ hbs.registerHelper("eq", function (arg1, arg2, options) {
 });
 
 // Configure Express middleware and settings
-const templatePath = path.join(__dirname, "../templates");
-const publicPath = path.join(__dirname, "../public");
+const templatePath = path.join(__dirname, "../../Exploreproject/Travel/templates");
+const publicPath = path.join(__dirname, "../../Exploreproject/Travel/public");
 app.use(express.json());
 app.set("view engine", "hbs");
 app.set("views", templatePath);
