@@ -1,35 +1,39 @@
-// Import the mongoose library
-const mongoose = require("mongoose");
+var mongoClient = require("mongodb").MongoClient;
 
-// Connect to MongoDB
-mongoose
-  .connect("mongodb://admin:Sp00ky!@localhost:27017/?AuthSource=admin")
-  .then(() => {
-    console.log("Mongodb Connected");
-  })
-  .catch(() => {
-    console.log("Failed to Connect");
-  });
+var connectionString = "mongodb://exploreepicdatabase:80l4sRze5uQpbqlRCGdT7d5htDwiOadyVok0djJknNt4TFIu0occtM9dTbSzgMiQFQFDw8HnwZyWACDbj7bIXQ==@exploreepicdatabase.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&maxIdleTimeMS=120000&appName=@exploreepicdatabase@";
 
-// Define a schema for the "Collection1" documents
-const LogInSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    unique: true
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  posts: {
-    type: Array,
-    required: false,
-    default: []
+mongoClient.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true }, function (err, client) {
+  if (err) {
+    console.error('Failed to connect:', err);
+    return;
   }
-});
 
-// Create a mongoose model based on the schema, named "Collection1"
-const collection = new mongoose.model("Collection1", LogInSchema);
-// Export the "Collection1" model for use in other parts of the application
-module.exports = collection;
+  console.log('Connected successfully to Cosmos DB');
+
+  // Define a schema for the "Collection1" documents (similar to the previous Mongoose schema)
+  const LogInSchema = {
+    name: {
+      type: String,
+      required: true,
+      unique: true
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    posts: {
+      type: Array,
+      required: false,
+      default: []
+    }
+  };
+
+  // Access the "Collection1" collection from Azure Cosmos DB using the 'client' object
+  const db = client.db('exploreepicdatabase'); // Replace 'YourDatabaseName' with your actual DB name
+  const collection = db.collection('Collection1');
+
+  // Export the "Collection1" collection for use in other parts of the application
+  module.exports = collection;
+
+  client.close(); // Close the connection when done (or maintain the connection as needed)
+});
