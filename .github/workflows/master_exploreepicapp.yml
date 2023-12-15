@@ -25,7 +25,7 @@ jobs:
           npm install
           npm run build --if-present
       - name: Zip artifact for deployment
-        run: zip -r release.zip ExploreEpicProject/Travel/src ExploreEpicProject/Travel/templates ExploreEpicProject/Travel/public
+        run: zip -r release.zip ExploreEpicProject/Travel/src ExploreEpicProject/Travel/templates ExploreEpicProject/Travel/public ExploreEpicProject/Travel/src/ExploreEpicProject/Travel/src/index.js ExploreEpicProject/Travel/src/package-lock.json ExploreEpicProject/Travel/src/package.json 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
