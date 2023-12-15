@@ -51,7 +51,7 @@ jobs:
       - name: List artifact contents
         run: ls -la
       - name: Unzip artifact for deployment
-        run: unzip ExploreEpicProject/Travel/src/release.zip -d ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+        run: unzip release.zip 
       - name: List unzipped files
         run: ls -la ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
       - name: "Deploy to Azure WebApp"
