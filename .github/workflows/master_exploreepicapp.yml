@@ -1,4 +1,4 @@
-name: Deploy to Azure Web App
+name: Build and deploy Node.js app to Azure Web App
 
 on:
   push:
@@ -6,41 +6,54 @@ on:
       - master
   workflow_dispatch:
 
+env:
+  AZURE_WEBAPP_NAME: ExploreEpic   # set this to your application's name
+  AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
+  NODE_VERSION: '20.x'
+
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "ExploreEpicProject/Travel/src"
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Zip required folders
+      - uses: actions/checkout@v3
+      - name: npm install, build
         run: |
-          cd ExploreEpicProject/Travel
-          zip -r release.zip ./* ./templates ./public
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
+          npm install
+          npm run build --if-present
+      - name: Zip artifact for deployment
+        run: zip release.zip ./* -r
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v3
         with:
           name: node-app
-          path: ExploreEpicProject/Travel/release.zip
+          path: 'ExploreEpicProject/Travel/src/release.zip'
 
   deploy:
+    permissions:
+      contents: none
     runs-on: ubuntu-latest
     needs: build
-
+    environment:
+      name: "Development"
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     steps:
       - name: Download artifact from build job
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: node-app
-
-      - name: Deploy to Azure Web App
+      - name: unzip artifact for deployment
+        run: unzip release.zip
+      - name: "Deploy to Azure WebApp"
+        id: "id"
         uses: azure/webapps-deploy@v2
         with:
-          app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: ExploreEpicProject/Travel/release.zip
+          package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
