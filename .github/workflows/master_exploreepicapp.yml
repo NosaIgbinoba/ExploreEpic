@@ -46,7 +46,7 @@ jobs:
         with:
           name: node-app
       - name: unzip artifact for deployment
-        run: unzip release.zip -d ExploreEpicProject/Travel
+        run: unzip release.zip 
       - name: "Deploy to Azure WebApp"
         id: "id"
         uses: azure/webapps-deploy@v2
