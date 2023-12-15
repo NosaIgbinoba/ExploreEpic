@@ -19,21 +19,22 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: "ExploreEpicProject/Travel/src"
+        working-directory: "ExploreEpicProject/Travel"
 
     steps:
       - uses: actions/checkout@v3
       - name: npm install, build
         run: |
+          cd src
           npm install
           npm run build --if-present
       - name: Zip artifact for deployment
-        run: zip -r release.zip ./* ../templates ../public
+        run: zip -r release.zip src templates public
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
           name: node-app
-          path: 'ExploreEpicProject/Travel/src/release.zip'
+          path: 'ExploreEpicProject/Travel/release.zip'
 
   deploy:
     permissions:
@@ -48,14 +49,10 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: node-app
-      - name: Check directories before unzipping
-        run: |
-          if [ ! -d "templates" ] || [ ! -d "public" ]; then
-            echo "Missing directories: templates or public"
-            exit 1
-          fi
+      - name: List artifact contents
+        run: ls -la
       - name: Unzip artifact for deployment
-        run: unzip release.zip -d .
+        run: unzip ExploreEpicProject/Travel/release.zip -d ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
       - name: List unzipped files
         run: ls -la ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
       - name: "Deploy to Azure WebApp"
