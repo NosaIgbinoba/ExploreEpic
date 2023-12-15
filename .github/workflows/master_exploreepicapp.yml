@@ -8,7 +8,7 @@ on:
 
 env:
   AZURE_WEBAPP_NAME: ExploreEpic
-  AZURE_WEBAPP_PACKAGE_PATH: 'ExploreEpicProject/Travel'
+  AZURE_WEBAPP_PACKAGE_PATH: '.'  # Set this to the path to your web app project, defaults to the repository root
   NODE_VERSION: '20.x'
 
 permissions:
@@ -17,32 +17,23 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "ExploreEpicProject/Travel/src"
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: Install dependencies and build
+      - uses: actions/checkout@v3
+      - name: npm install, build
         run: |
-          cd ExploreEpicProject/Travel/src
           npm install
           npm run build --if-present
-
       - name: Zip artifact for deployment
-        run: |
-          cd ExploreEpicProject/Travel
-          zip -r release.zip .
-
+        run: zip -r release.zip ./* ../templates ../public
       - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: node-app
-          path: 'ExploreEpicProject/Travel/release.zip'
+          path: 'ExploreEpicProject/Travel/src/release.zip'
 
   deploy:
     permissions:
@@ -52,17 +43,19 @@ jobs:
     environment:
       name: "Development"
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-
     steps:
       - name: Download artifact from build job
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: node-app
-
+      - name: List artifact contents
+        run: ls -la
       - name: Unzip artifact for deployment
-        run: unzip ExploreEpicProject/Travel/release.zip -d ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-
-      - name: Deploy to Azure WebApp
+        run: unzip ExploreEpicProject/Travel/src/release.zip -d ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+      - name: List unzipped files
+        run: ls -la ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+      - name: "Deploy to Azure WebApp"
+        id: "id"
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
