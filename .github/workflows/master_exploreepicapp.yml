@@ -56,6 +56,8 @@ jobs:
         run: |
           unzip ExploreEpicProject/Travel/release.zip -d ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
           mv ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/src/index.js ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/index.js
+          cp ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/src/package-lock.json ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/package-lock.json
+          cp ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/src/package.json ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/package.json
       - name: List unzipped files
         run: ls -la ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
       - name: "Deploy to Azure WebApp"
