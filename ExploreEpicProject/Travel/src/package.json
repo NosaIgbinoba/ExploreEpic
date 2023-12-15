@@ -1,4 +1,5 @@
-"dependencies": {
+{
+  "dependencies": {
   "express": "^4.17.1",
   "axios": "^1.6.2",
   "bcrypt": "^5.1.1",
@@ -10,4 +11,5 @@
   "express-session": "^1.17.3",
   "hbs": "^4.2.0",
   "mongoose": "^8.0.1"
+}
 }
