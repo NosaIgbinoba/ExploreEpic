@@ -52,7 +52,9 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: node-app
-      
+          
+      - name: List artifact contents
+        run: ls -la
 
       - name: unzip artifact for deployment
         run: unzip release.zip 
