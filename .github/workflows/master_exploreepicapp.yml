@@ -8,7 +8,7 @@ on:
 
 env:
   AZURE_WEBAPP_NAME: ExploreEpic   # set this to your application's name
-  AZURE_WEBAPP_PACKAGE_PATH: 'ExploreEpicProject/Travel'   # set this to the path to your web app project, defaults to the repository root
+  AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
   NODE_VERSION: '20.x'
 
 permissions:
@@ -22,18 +22,15 @@ jobs:
       - uses: actions/checkout@v3
       - name: npm install, build
         run: |
-          cd ExploreEpicProject/Travel
           npm install
           npm run build --if-present
       - name: Zip artifact for deployment
-        run: |
-          cd ExploreEpicProject
-          zip -r release.zip Travel
+        run: zip -r release.zip ExploreEpicProject/Travel/src ExploreEpicProject/Travel/templates ExploreEpicProject/Travel/public
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
           name: node-app
-          path: 'ExploreEpicProject/release.zip'
+          path: 'release.zip'
 
   deploy:
     permissions:
@@ -49,11 +46,11 @@ jobs:
         with:
           name: node-app
       - name: unzip artifact for deployment
-        run: unzip ExploreEpicProject/release.zip -d ExploreEpicProject
+        run: unzip release.zip -d ExploreEpicProject/Travel
       - name: "Deploy to Azure WebApp"
         id: "id"
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+          package: 'ExploreEpicProject/Travel'
