@@ -8,7 +8,7 @@ on:
 
 env:
   AZURE_WEBAPP_NAME: ExploreEpic   # set this to your application's name
-  AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
+  AZURE_WEBAPP_PACKAGE_PATH: 'ExploreEpicProject/Travel'   # set this to the path to your web app project, defaults to the repository root
   NODE_VERSION: '20.x'
 
 permissions:
@@ -17,23 +17,23 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: "ExploreEpicProject/Travel/src"
 
     steps:
       - uses: actions/checkout@v3
       - name: npm install, build
         run: |
+          cd ExploreEpicProject/Travel
           npm install
           npm run build --if-present
       - name: Zip artifact for deployment
-        run: zip release.zip ./* -r
+        run: |
+          cd ExploreEpicProject
+          zip -r release.zip Travel
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
           name: node-app
-          path: 'ExploreEpicProject/Travel/src/release.zip'
+          path: 'ExploreEpicProject/release.zip'
 
   deploy:
     permissions:
@@ -49,7 +49,7 @@ jobs:
         with:
           name: node-app
       - name: unzip artifact for deployment
-        run: unzip release.zip
+        run: unzip ExploreEpicProject/release.zip -d ExploreEpicProject
       - name: "Deploy to Azure WebApp"
         id: "id"
         uses: azure/webapps-deploy@v2
