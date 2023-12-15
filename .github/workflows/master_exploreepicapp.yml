@@ -51,7 +51,7 @@ jobs:
       - name: List artifact contents
         run: ls -la
       - name: List files in the current directory
-        run: ls -la ExploreEpicProject/Travel/
+        run: ls -la $HOME/wwwroot
       - name: Unzip artifact for deployment
         run: unzip release.zip -d .
       - name: List unzipped files
