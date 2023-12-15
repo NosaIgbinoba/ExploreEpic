@@ -33,7 +33,7 @@ jobs:
       - name: Zip required folders
         run: |
           cd ..
-          zip -r release.zip ./Travel/src/* ./Travel/src/templates ./Travel/src/public
+          zip -r release.zip ./ExploreEpicProject/Travel/src/* ./ExploreEpicProject/Travel/src/templates ./ExploreEpicProject/Travel/src/public
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
