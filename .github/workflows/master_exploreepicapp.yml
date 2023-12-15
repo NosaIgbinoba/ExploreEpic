@@ -28,6 +28,8 @@ jobs:
           cd src
           npm install
           npm run build --if-present
+      - name: Copy node_modules folder
+        run: cp -r src/node_modules ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/node_modules
       - name: Zip artifact for deployment
         run: zip -r release.zip src templates public
       - name: Upload artifact for deployment job
@@ -58,8 +60,10 @@ jobs:
           mv ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/src/index.js ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/index.js
           cp ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/src/package-lock.json ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/package-lock.json
           cp ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/src/package.json ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/package.json
+      - name: Copy node_modules folder to wwwroot
+        run: cp -r ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/node_modules ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/wwwroot/
       - name: List unzipped files
-        run: ls -la ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+        run: ls -la ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/wwwroot/
       - name: "Deploy to Azure WebApp"
         id: "id"
         uses: azure/webapps-deploy@v2
