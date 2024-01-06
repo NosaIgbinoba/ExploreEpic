@@ -15,6 +15,8 @@ ExploreEpic is a travel blog website that allows users to share their travel exp
 - **Backend:** Node.js
 - **Database:** MongoDB
 - **APIs:** [Countries API](https://countriesnow.space/)
+- **Deployment:** Azure Cloud
+- **CI/CD Pipeline:** GitHub Actions
 
 ### Getting Started
 
