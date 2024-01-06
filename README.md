@@ -47,6 +47,4 @@ If you'd like to contribute to ExploreEpic, follow these steps:
 - [Countries API](https://countriesnow.space/)
 - Acknowledge contributors if applicable.
 
-### License
 
-[Specify the license for your project, if any]
