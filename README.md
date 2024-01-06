@@ -14,7 +14,7 @@ ExploreEpic is a travel blog website that allows users to share their travel exp
 - **Frontend:** HTML (HBS), CSS, Bootstrap
 - **Backend:** Node.js
 - **Database:** MongoDB
-- **APIs:** 
+- **APIs:** [Countries API](https://countriesnow.space/)
 
 ### Getting Started
 
@@ -38,7 +38,7 @@ If you'd like to contribute to ExploreEpic, follow these steps:
 
 ### Credits
 
-- Countries API [https://countriesnow.space/]
+- [Countries API](https://countriesnow.space/)
 - Acknowledge contributors if applicable.
 
 ### License
