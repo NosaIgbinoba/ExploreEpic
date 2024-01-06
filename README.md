@@ -45,6 +45,5 @@ If you'd like to contribute to ExploreEpic, follow these steps:
 ### Credits
 
 - [Countries API](https://countriesnow.space/)
-- Acknowledge contributors if applicable.
 
 
