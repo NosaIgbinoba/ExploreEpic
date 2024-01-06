@@ -25,6 +25,10 @@ To run ExploreEpic locally or set it up for development, follow these steps:
 3. **Set Up MongoDB:** 
 4. **Run the Application:** 
 
+### Deployment to Azure Cloud
+
+ExploreEpic has been successfully deployed to Azure Cloud using GitHub Actions as the CI/CD pipeline. The deployment process ensures seamless updates and availability of the platform.
+
 ### How to Contribute
 
 If you'd like to contribute to ExploreEpic, follow these steps:
