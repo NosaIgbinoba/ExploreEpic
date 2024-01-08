@@ -12,14 +12,16 @@ const MongoStore = require("connect-mongo");
 const mongoose = require("mongoose");
 const axios = require('axios');
 
+
+
 // Register a Handlebars helper named "eq" to compare two values for equality
 hbs.registerHelper("eq", function (arg1, arg2, options) {
   return arg1 == arg2;
 });
 
 // Configure Express middleware and settings
-const templatePath = path.join(__dirname, "templates");
-const publicPath = path.join(__dirname, "public");
+const templatePath = path.join(__dirname, "../templates");
+const publicPath = path.join(__dirname, "../public");
 app.use(express.json());
 app.set("view engine", "hbs");
 app.set("views", templatePath);
@@ -74,6 +76,7 @@ app.get("/login", (req, res) => {
 
 app.post("/signup", async (req, res) => {
   try {
+    const collection = await connectToDatabase();
     // Check if the username already exists in the database.
     const existingUser = await collection.findOne({ name: req.body.name });
 
@@ -98,13 +101,14 @@ app.post("/signup", async (req, res) => {
     res.redirect("/login");
   } catch (error) {
     // Log and send an error message if an exception occurs during the process.
-    console.error($`Error /signup - ${error}`);
+    console.error(`Error /signup - ${error}`);
     res.send("Error Creating account");
   }
 });
 
 app.post("/login", async (req, res) => {
   try {
+    const collection = await connectToDatabase();
     // Retrieve the user from the database based on the provided username.
     const user = await collection.findOne({ name: req.body.name });
     // Compare the provided password with the hashed password stored in the database.
@@ -159,6 +163,7 @@ app.get("/about", (req, res) => {
 
 app.get("/blog", async (req,res) => {
   // Retrieve blog posts from the database using aggregation.
+  const collection = await connectToDatabase();
   const blogs = await collection.aggregate([
     { $unwind: "$posts" },
     { $replaceRoot: { newRoot: "$posts" } }
@@ -270,6 +275,9 @@ app.post("/delete", async (req, res) => {
 // - Save changes and update user session.
 // - Handle errors.
 // - Redirect to "/blog" upon successful submission.
+
+let collection;
+
 app.post("/submit", async (req, res) => {
   if (req.body == null) {
     return res.status(400).send({ error: "Request body missing" });
@@ -357,12 +365,10 @@ app.post('/delete-post', async (req, res) => {
 });
 
 connectToDatabase()
-  .then((collection) => {
-    // Use the collection/model here if needed in your routes or other parts of the app
-    // For instance, you can pass 'collection' as an argument to your routes
-    app.set("collection", collection);
+  .then((dbCollection) => {
+    collection = dbCollection;
 
-    // Start the server
+    // Start the server after successfully establishing the connection
     const port = process.env.PORT || 3000;
     app.listen(port, () => {
       console.log(`Server is running on port ${port}`);
