@@ -23,7 +23,7 @@ ExploreEpic is a travel blog website that allows users to share their travel exp
 To run ExploreEpic locally or set it up for development, follow these steps:
 
 1. **Clone the Repository:** `git clone [repository_url]`
-2. **Install Dependencies:** 
+2. **Install Dependencies:** `npm install`
 3. **Set Up MongoDB:** 
 4. **Run the Application:** 
 
